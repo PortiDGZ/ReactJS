@@ -1,26 +1,104 @@
-import React from 'react';
+import React, {Component} from 'react';
 import logo from './logo.svg';
 import './App.css';
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+class User extends React.Component{
+
+  render() {
+
+    return(
+
+        <li>
+          {this.props.name} {this.props.email}
+        </li>
+
+    )
+  }
+
 }
 
-export default App;
+class UserList extends React.Component{
+
+  render() {
+
+    return(
+
+        <ul>
+
+          {this.props.users.map(u => {
+
+            return(
+
+                <User key={u.id}
+                      name={u.name}
+                      email={u.email}
+                />
+            )
+          })
+          }
+        </ul>
+    )
+  }
+}
+
+class App extends React.Component{
+
+  constructor() {
+    super();
+    this.state = {
+      users: [
+        {id:1, name: "miguel", email: "test@miguelgomez.io"},
+        {id:2, name: "test", email: "test@test.es"}
+      ]
+
+    };
+  }
+
+  handleOnAddUser(event){
+
+    event.preventDefault();
+
+    let user = {
+
+      name: event.target.name.value,
+
+      email: event.target.email.value
+    };
+    this.setState({
+
+      users: this.state.users.concat([user])
+    });
+  }
+
+  render() {
+
+    return(
+        <div>
+        <UserList users={this.state.users} />
+
+        <UserForm onAddUser={this.handleOnAddUser.bind(this)} />
+
+        </div>
+    );
+  }
+}
+
+export default class UserForm extends React.Component{
+  render() {
+
+    return(
+
+        <form onSubmit={this.props.OnAddUser}>
+
+          <input type={"text"} placeholder={"Nombre"} name={"name"} />
+
+          <input type={"email"} placeholder={"Email"} name={"email"}/>
+
+          <input type={"submit"} value={"Guardar"}/>
+
+        </form>
+
+    );
+  }
+
+}
