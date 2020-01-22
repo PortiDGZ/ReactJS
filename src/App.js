@@ -43,8 +43,8 @@ class UserList extends React.Component{
 
 class App extends React.Component{
 
-  constructor() {
-    super();
+    constructor(props) {
+    super(props);
     this.state = {
       users: [
         {id:1, name: "miguel", email: "test@miguelgomez.io"},
